@@ -29,6 +29,7 @@ CKEDITOR.dtd.$editable.span = 1;
 CKEDITOR.dtd.$editable.ol = 1;
 CKEDITOR.dtd.$editable.ul = 1;
 CKEDITOR.dtd.$editable.table = 1;
+CKEDITOR.dtd.$editable.i = !1;
 
 <?php
 $currentLanguage = in_array(phpb_config('general.language'), phpb_active_languages()) ? phpb_config('general.language') : array_keys(phpb_active_languages())[0];
