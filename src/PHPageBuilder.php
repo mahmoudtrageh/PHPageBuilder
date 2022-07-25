@@ -72,7 +72,7 @@ class PHPageBuilder
 
         // init the default authentication, if enabled
         if (phpb_config('auth.use_login')) {
-            $this->auth = phpb_instance('auth');
+        
         }
 
         // init the default website manager, if enabled
