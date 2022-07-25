@@ -260,19 +260,14 @@ class PHPageBuilder
            require base_path().'/routes/auth.php';
         }
 
-        // handle login and logout requests
-        $this->auth->handleRequest($action);
-
         // handle website manager requests
         if (phpb_in_module('website_manager')) {
-            $this->auth->requireAuth();
             $this->websiteManager->handleRequest($route, $action);
             die('PHPageBuilder WebsiteManager page not found');
         }
 
         // handle page builder requests
         if (phpb_in_module('pagebuilder')) {
-            $this->auth->requireAuth();
             phpb_set_in_editmode();
             $this->pageBuilder->handleRequest($route, $action);
             die('PHPageBuilder PageBuilder page not found');
