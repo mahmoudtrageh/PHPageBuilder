@@ -256,8 +256,8 @@ class PHPageBuilder
         $action = $action ?? $_GET['action'] ?? null;
 
         if (! phpb_config('auth.use_login') || ! phpb_config('website_manager.use_website_manager')) {
-            die('The PHPageBuilder Authentication module is disabled, but no alternative has been implemented (you are still calling the standard handleRequest() method).<br>'
-                . 'Implement a piece of code that checks whether the user is logged in. If logged in, call handleAuthenticatedRequest() or else call handlePublicRequest().');
+           // auth routes
+           require base_path().'/routes/auth.php';
         }
 
         // handle login and logout requests

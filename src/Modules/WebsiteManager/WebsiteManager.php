@@ -62,9 +62,10 @@ class WebsiteManager implements WebsiteManagerContract
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pageRepository = new PageRepository;
+           
             $page = $pageRepository->create($_POST);
             if ($page) {
-                phpb_redirect(phpb_url('website_manager'), [
+                phpb_redirect(route('overview'), [
                     'message-type' => 'success',
                     'message' => phpb_trans('website-manager.page-created')
                 ]);
@@ -85,7 +86,7 @@ class WebsiteManager implements WebsiteManagerContract
             $pageRepository = new PageRepository;
             $success = $pageRepository->update($page, $_POST);
             if ($success) {
-                phpb_redirect(phpb_url('website_manager'), [
+                phpb_redirect(route('overview'), [
                     'message-type' => 'success',
                     'message' => phpb_trans('website-manager.page-updated')
                 ]);
@@ -104,7 +105,7 @@ class WebsiteManager implements WebsiteManagerContract
     {
         $pageRepository = new PageRepository;
         $pageRepository->destroy($page->getId());
-        phpb_redirect(phpb_url('website_manager'), [
+        phpb_redirect(route('overview'), [
             'message-type' => 'success',
             'message' => phpb_trans('website-manager.page-deleted')
         ]);
@@ -135,8 +136,8 @@ class WebsiteManager implements WebsiteManagerContract
         $pageRepository = new PageRepository;
         $pages = $pageRepository->getAll();
 
-        $viewFile = 'overview';
-        require __DIR__ . '/resources/layouts/master.php';
+        $adminTheme = env('ADMIN_THEME', 'adminLte');
+        return view('builder::'.$adminTheme.'.pages.pages.overview', compact('pages'));
     }
 
     /**
