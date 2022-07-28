@@ -41,7 +41,7 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      */
     public function create(array $data)
     {
-        foreach (['name', 'layout'] as $field) {
+        foreach (['name'] as $field) {
             if (! isset($data[$field]) || ! is_string($data[$field])) {
                 return false;
             }
@@ -49,7 +49,7 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
 
         $page = parent::create([
             'name' => $data['name'],
-            'layout' => $data['layout'],
+            'layout' => 'master',
         ]);
         if (! ($page instanceof PageContract)) {
             throw new Exception("Page not of type PageContract");
@@ -66,18 +66,18 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      */
     public function update($page, array $data)
     {
-        foreach (['name', 'layout'] as $field) {
+        foreach (['name'] as $field) {
             if (! isset($data[$field]) || ! is_string($data[$field])) {
                 return false;
             }
         }
-
+       
+        
         $page->invalidateCache();
         $this->replaceTranslations($page, $data);
 
         return parent::update($page, [
             'name' => $data['name'],
-            'layout' => $data['layout'],
         ]);
     }
 
@@ -90,6 +90,7 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      */
     protected function replaceTranslations(PageContract $page, array $data)
     {
+       
         $activeLanguages = phpb_active_languages();
         foreach (['title', 'route'] as $field) {
             foreach ($activeLanguages as $languageCode => $languageTranslation) {

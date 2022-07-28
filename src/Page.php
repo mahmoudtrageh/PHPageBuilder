@@ -129,11 +129,12 @@ class Page implements PageContract
     public function getTranslation(string $setting, $locale = null)
     {
         $translations = $this->getTranslations();
+        
         $locale = $locale ?? phpb_config('general.language');
+       
         return $translations[$locale][$setting] ??
-            $translations['en'][$setting] ??
-            $translations[array_keys($translations)[0]][$setting] ??
             null;
+            
     }
 
     /**

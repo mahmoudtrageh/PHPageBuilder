@@ -18,7 +18,7 @@ class WebsiteManager implements WebsiteManagerContract
     public function handleRequest($route, $action)
     {
         if (is_null($route)) {
-            $this->renderOverview();
+            phpb_redirect(route('overview'));
             exit();
         }
 
@@ -34,6 +34,7 @@ class WebsiteManager implements WebsiteManagerContract
         }
 
         if ($route === 'page_settings') {
+            
             if ($action === 'create') {
                 $this->handleCreate();
                 exit();
@@ -72,7 +73,7 @@ class WebsiteManager implements WebsiteManagerContract
             }
         }
 
-        $this->renderPageSettings();
+        phpb_redirect(route('overview'));
     }
 
     /**
@@ -93,7 +94,7 @@ class WebsiteManager implements WebsiteManagerContract
             }
         }
 
-        $this->renderPageSettings($page);
+        phpb_redirect(route('overview'));
     }
 
     /**
@@ -128,31 +129,6 @@ class WebsiteManager implements WebsiteManagerContract
         }
     }
 
-    /**
-     * Render the website manager overview page.
-     */
-    public function renderOverview()
-    {
-        $pageRepository = new PageRepository;
-        $pages = $pageRepository->getAll();
-
-        $adminTheme = env('ADMIN_THEME', 'adminLte');
-        return view('builder::'.$adminTheme.'.pages.pages.overview', compact('pages'));
-    }
-
-    /**
-     * Render the website manager page settings (add/edit page form).
-     *
-     * @param PageContract $page
-     */
-    public function renderPageSettings(PageContract $page = null)
-    {
-        $action = isset($page) ? 'edit' : 'create';
-        $theme = phpb_instance('theme', [phpb_config('theme'), phpb_config('theme.active_theme')]);
-
-        $viewFile = 'page-settings';
-        require __DIR__ . '/resources/layouts/master.php';
-    }
 
     /**
      * Render the website manager menu settings (add/edit menu form).

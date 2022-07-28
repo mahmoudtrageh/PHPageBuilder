@@ -3,6 +3,7 @@
 namespace PHPageBuilder\Repositories;
 
 use PHPageBuilder\Contracts\SettingRepositoryContract;
+use DB;
 
 class SettingRepository extends BaseRepository implements SettingRepositoryContract
 {
@@ -21,7 +22,8 @@ class SettingRepository extends BaseRepository implements SettingRepositoryContr
      */
     public function updateSettings(array $data)
     {
-        $this->destroyAll();
+
+        $lang = DB::table('pagebuilder__settings')->where('setting', 'languages')->delete();
 
         foreach ($data as $key => $value) {
             $isArray = is_array($value);
