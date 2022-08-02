@@ -15,7 +15,7 @@ return [
         'menus' => 'Menus',
         'name' => 'Name',
         'page-title' => 'Page title',
-        'route' => 'URL',
+        'route' => 'Slug',
         'layout' => 'Layout',
         'actions' => 'Actions',
         'view' => 'View',

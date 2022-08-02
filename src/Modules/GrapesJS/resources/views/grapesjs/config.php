@@ -37,7 +37,14 @@ return [
             'name' => phpb_trans('pagebuilder.style-manager.sectors.background'),
             'open' => false,
             'buildProps' => ['background-color', 'background']
-        ]]
+        ], [
+            
+            'id' => 'typography',
+            'name' => 'Typography',
+            'open' => false,
+            'buildProps' => ['font-size', 'color'],
+          
+            ]]
     ],
     'selectorManager' => [
         'label' => phpb_trans('pagebuilder.selector-manager.label'),
@@ -79,8 +86,12 @@ return [
                         'command' => 'open-sm',
                         'togglable' => 0,
                         'attributes' => ['title' => phpb_trans('pagebuilder.view-style-manager')],
-                    ]
-                ]
+                    ],
+                    // [ 'id' => "set-device-desktop", 'command' => 'open-tm', 'className' => "fa fa-desktop", 'active' => 1 ],
+                    // [ 'id' => "set-device-tablet", 'command' => 'open-tm', 'className' => "fa fa-tablet", 'active' => 1 ],
+                    // [ 'id' => "set-device-mobile", 'command' => 'open-tm', 'className' => "fa fa-mobile", 'active' => 1 ],
+                ],
+
             ],
         ]
     ],
@@ -107,8 +118,9 @@ return [
                     ],
                     [
                         'name' => 'styles',
-                        'items' => ['FontSize']
+                        'items' => ['FontSize', 'Styles', 'Format', 'Font']
                     ],
+                    
                     [
                         'name' => 'paragraph',
                         'groups' => ['list', 'indent', 'blocks', 'align'],
@@ -118,7 +130,8 @@ return [
                         'name' => 'colors',
                         'items' => ['TextColor', 'BGColor']
                     ],
-                ],
+                ]
+                
             ]
         ]
     ]
