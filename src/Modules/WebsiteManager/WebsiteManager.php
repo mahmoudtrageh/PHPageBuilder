@@ -6,7 +6,7 @@ use PHPageBuilder\Contracts\PageContract;
 use PHPageBuilder\Contracts\WebsiteManagerContract;
 use PHPageBuilder\Repositories\PageRepository;
 use PHPageBuilder\Repositories\SettingRepository;
-
+use DB;
 class WebsiteManager implements WebsiteManagerContract
 {
     /**
@@ -20,17 +20,6 @@ class WebsiteManager implements WebsiteManagerContract
         if (is_null($route)) {
             phpb_redirect(route('overview'));
             exit();
-        }
-
-        if ($route === 'settings') {
-            if ($action === 'renderBlockThumbs') {
-                $this->renderBlockThumbs();
-                exit();
-            }
-            if ($action === 'update') {
-                $this->handleUpdateSettings();
-                exit();
-            }
         }
 
         if ($route === 'page_settings') {
@@ -63,10 +52,11 @@ class WebsiteManager implements WebsiteManagerContract
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pageRepository = new PageRepository;
-           
+           $last_id = DB::table('pagebuilder__pages')->orderBy('id', 'desc')->first()->id;
+            $target_id = $last_id + 1;
             $page = $pageRepository->create($_POST);
             if ($page) {
-                phpb_redirect(route('overview'), [
+                phpb_redirect(phpb_url('pagebuilder', ['page' => $target_id]) , [
                     'message-type' => 'success',
                     'message' => phpb_trans('website-manager.page-created')
                 ]);
@@ -112,48 +102,4 @@ class WebsiteManager implements WebsiteManagerContract
         ]);
     }
 
-    /**
-     * Handle requests for updating the website settings.
-     */
-    public function handleUpdateSettings()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $settingRepository = new SettingRepository;
-            $success = $settingRepository->updateSettings($_POST);
-            if ($success) {
-                phpb_redirect(phpb_url('website_manager', ['tab' => 'settings']), [
-                    'message-type' => 'success',
-                    'message' => phpb_trans('website-manager.settings-updated')
-                ]);
-            }
-        }
-    }
-
-
-    /**
-     * Render the website manager menu settings (add/edit menu form).
-     */
-    public function renderMenuSettings()
-    {
-        $viewFile = 'menu-settings';
-        require __DIR__ . '/resources/layouts/master.php';
-    }
-
-    /**
-     * Render a thumbnail for each theme block.
-     */
-    public function renderBlockThumbs()
-    {
-        $viewFile = 'block-thumbs';
-        require __DIR__ . '/resources/layouts/master.php';
-    }
-
-    /**
-     * Render the website manager welcome page for installations without a homepage.
-     */
-    public function renderWelcomePage()
-    {
-        $viewFile = 'welcome';
-        require __DIR__ . '/resources/layouts/empty.php';
-    }
 }

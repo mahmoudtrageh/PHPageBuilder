@@ -11,9 +11,4 @@ interface WebsiteManagerContract
      * @param $action
      */
     public function handleRequest($route, $action);
-
-    /**
-     * Render the website manager menu settings (add/edit menu form).
-     */
-    public function renderMenuSettings();
 }

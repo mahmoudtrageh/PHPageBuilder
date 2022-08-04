@@ -35,6 +35,7 @@ class PageBuilder implements PageBuilderContract
     public function __construct()
     {
         $this->theme = phpb_instance('theme', [phpb_config('theme'), phpb_config('theme.active_theme')]);
+        
     }
 
     /**
@@ -58,6 +59,7 @@ class PageBuilder implements PageBuilderContract
      */
     public function handleRequest($route, $action, PageContract $page = null)
     {
+        
         phpb_set_in_editmode();
 
         if ($route === 'thumb_generator') {
@@ -73,7 +75,6 @@ class PageBuilder implements PageBuilderContract
         if (! ($page instanceof PageContract)) {
             return false;
         }
-
         switch ($action) {
             case null:
             case 'edit':
@@ -257,10 +258,13 @@ class PageBuilder implements PageBuilderContract
 
         $blockData = is_array($blockData) ? $blockData : [];
         $page->setData(['data' => $blockData], false);
-
+       
+        
         $pageRenderer = phpb_instance(PageRenderer::class, [$this->theme, $page, true]);
         $pageRenderer->setLanguage($language);
+
         echo $pageRenderer->parseShortcodes($blockData['html'], $blockData['blocks']);
+
     }
 
     /**
