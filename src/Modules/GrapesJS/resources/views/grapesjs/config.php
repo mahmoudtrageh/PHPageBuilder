@@ -42,7 +42,7 @@ return [
             'id' => 'typography',
             'name' => 'Typography',
             'open' => false,
-            'buildProps' => ['font-size', 'color'],
+            'buildProps' => ['font-size', 'color', 'font-weight'],
           
             ]]
     ],
